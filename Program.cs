@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using TcKimlikKontrol.Models;
+using TcKimlikKontrol.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -16,6 +17,7 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<TcKimlikDbContext>(options => options.UseSqlServer(connectionString));
 builder.Services.AddRazorPages();
 builder.Services.AddHttpClient();
+builder.Services.AddScoped<NviService>();
 
 var app = builder.Build();
 

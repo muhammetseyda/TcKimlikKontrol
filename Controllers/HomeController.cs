@@ -2,16 +2,19 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using TcKimlikKontrol.Models;
+using TcKimlikKontrol.Services;
 
 namespace TcKimlikKontrol.Controllers
 {
     public class HomeController : Controller
     {
         private readonly TcKimlikDbContext _dbContext;
+        private readonly NviService _nviService;
 
-        public HomeController(TcKimlikDbContext dbContext)
+        public HomeController(TcKimlikDbContext dbContext, NviService nviService)
         {
             _dbContext = dbContext;
+            _nviService = nviService;
         }
 
         [HttpGet]
@@ -25,6 +28,14 @@ namespace TcKimlikKontrol.Controllers
         {
             if (ModelState.IsValid)
             {
+                var kayitlikullanici = _dbContext.TcKimlik.FirstOrDefault(x => x.TcKimlikNo == item.TcKimlikNo);
+
+                if (kayitlikullanici != null) 
+                {
+                    ViewBag.Error = "Kullanıcı zaten kayıtlı!";
+                    return View(item); 
+                }
+
                 var kayit = new Kayit
                 {
                     TcKimlikNo = item.TcKimlikNo,
@@ -34,14 +45,22 @@ namespace TcKimlikKontrol.Controllers
                     KayitTarihi = DateTime.Now
                 };
 
-                
-                _dbContext.TcKimlik.Add(kayit);
-                await _dbContext.SaveChangesAsync();
+                bool isValid = await _nviService.DogrulaAsync(item.TcKimlikNo, item.Ad, item.Soyad, item.DogumTarihi);
 
-                return RedirectToAction("Succes");
+                if (isValid)
+                {
+                    _dbContext.TcKimlik.Add(kayit);
+                    await _dbContext.SaveChangesAsync();
+
+                    return RedirectToAction("Succes");
+                }
+                else
+                {
+                    ViewBag.Error = "Tc Kimlik Nosunu Kontrol Ediniz!";
+                    return View(item);
+                }
             }
-
-            ViewBag.Error = "Tc Kimlik Nosu 11 haneden küçük veya büyük olamaz.";
+            ViewBag.Error = "Bilgileri tekrardan kontrol ediniz. Tc Kimlik Nosu 11 haneden oluşmaktadır.";
             return View(item);
         }
 

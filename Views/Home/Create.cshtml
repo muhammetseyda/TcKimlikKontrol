@@ -10,22 +10,20 @@
     <div class="form-group">
         <label asp-for="Ad">Ad</label>
         <input asp-for="Ad" name="Ad" class="form-control" />
-        <span asp-validation-for="Ad" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="Soyad">Soyad</label>
         <input asp-for="Soyad" name="Soyad" class="form-control" />
-        <span asp-validation-for="Soyad" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="TcKimlikNo">TcKimlikNo</label>
         <input asp-for="TcKimlikNo" name="TcKimlikNo" class="form-control" />
-        <span asp-validation-for="TcKimlikNo" class="text-danger">@ViewBag.Error</span>
     </div>
     <div class="form-group">
         <label asp-for="DogumTarihi">DogumTarihi</label>
         <input type="date" asp-for="DogumTarihi" name="DogumTarihi" class="form-control" />
-        <span asp-validation-for="DogumTarihi" class="text-danger"></span>
     </div>
     <button type="submit" class="btn btn-primary">Kaydet</button>
+
+    <span class="text-danger">@ViewBag.Error</span>
 </form>
