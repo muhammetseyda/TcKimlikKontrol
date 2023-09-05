@@ -20,12 +20,17 @@
         <span asp-validation-for="Soyad" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="TcKimlikNo">TcKimlikNo yazın </label>
+        <label asp-for="Soyad">Soyadını bir daha gir </label>
+        <input asp-for="Soyad" class="form-control" />
+        <span asp-validation-for="Soyad" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="TcKimlikNo">TcKimlikNo </label>
         <input asp-for="TcKimlikNo" class="form-control" />
         <span asp-validation-for="TcKimlikNo" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="DogumTarihi">DogumTarihi ni Yaz </label>
+        <label asp-for="DogumTarihi">DogumTarihi</label>
         <input asp-for="DogumTarihi" class="form-control" />
         <span asp-validation-for="DogumTarihi" class="text-danger"></span>
     </div>
